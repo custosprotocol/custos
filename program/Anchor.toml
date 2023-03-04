@@ -1,7 +1,7 @@
 [features]
 seeds = false
 [programs.localnet]
-custos = "Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS"
+custos = "3xZo42jGt8vx9huwx2CXYWEcnuetDvurTAG9PLwRzcZo"
 
 [registry]
 url = "https://anchor.projectserum.com"
