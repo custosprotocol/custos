@@ -4,6 +4,7 @@ use anchor_lang::prelude::*;
 
 #[derive(Accounts)]
 pub struct RevokeDelegate<'info> {
+    #[account(mut)]
     pub authority: Signer<'info>,
     #[account(mut,has_one= authority,close = authority)]
     pub delegate_account: Account<'info, DelegateAccount>,
