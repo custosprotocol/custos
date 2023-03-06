@@ -13,8 +13,8 @@ declare_id!("3xZo42jGt8vx9huwx2CXYWEcnuetDvurTAG9PLwRzcZo");
 pub mod custos {
     use super::*;
 
-    pub fn create_delegate(ctx: Context<CreateDelegate>) -> Result<()> {
-        create_delegate::handler(ctx)
+    pub fn create_delegate(ctx: Context<CreateDelegate>, delegate_all: bool) -> Result<()> {
+        create_delegate::handler(ctx, delegate_all)
     }
 
     pub fn revoke_delegate(ctx: Context<RevokeDelegate>) -> Result<()> {
