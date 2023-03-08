@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Heading,
@@ -9,7 +9,7 @@ import {
   Image,
   Center,
 } from "@chakra-ui/react";
-import { useWallet } from "@solana/wallet-adapter-react";
+import DelegateBox from "./DelegateBox";
 
 function TopHeader() {
   return (
@@ -46,57 +46,6 @@ function TopHeader() {
       </Box>
       <DelegateBox />
     </VStack>
-  );
-}
-
-function DelegateBox() {
-  const { publicKey } = useWallet();
-  return (
-    <Flex
-      w="37vw"
-      align={"center"}
-      justify="center"
-      background={"rgba(0, 0, 0, 0.6)"}
-      direction={"column"}
-      borderWidth="0.5px"
-      borderColor={"white"}
-      borderRadius="lg"
-      p={9}
-      sx={{
-        backdropFilter: "blur(27.5px)",
-      }}
-    >
-      <Flex w={"full"} align={"center"} justify="space-between">
-        <Text color={"white"} fontWeight="black" fontSize={"14px"}>
-          Cold Wallet Connected :
-        </Text>
-        <Text color={"white"} textAlign="center">
-          {publicKey?.toString().slice(0, 10)}
-        </Text>
-      </Flex>
-      <HStack pt={4} spacing={16}>
-        <Box>
-          <Text color="white" fontSize={"lg"}>
-            Wallet
-          </Text>
-        </Box>
-        <Box>
-          <Text color="white" fontSize={"lg"}>
-            Token
-          </Text>
-        </Box>
-      </HStack>
-      <Box bg="#0f0f0f" borderRadius={"full"} padding={3}>
-        <Text
-          color={"white"}
-          fontSize="sm"
-          fontWeight={"light"}
-          textAlign="center"
-        >
-          Entrust tokens to wallet of your choice
-        </Text>
-      </Box>
-    </Flex>
   );
 }
 
