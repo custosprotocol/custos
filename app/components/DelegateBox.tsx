@@ -1,11 +1,24 @@
+import { getAllTokens } from "@/solana";
 import { Flex, Text, HStack, Box, Button, Input } from "@chakra-ui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TokenTab from "./TokenTab";
 import WalletTab from "./WalletTab";
 
 function DelegateBox() {
   const { publicKey } = useWallet();
+
+  // useEffect(() => {
+  //   if (publicKey !== null || publicKey !== undefined) {
+  //     (async () => {
+  //       try {
+  //         const data = await getAllTokens(publicKey);
+  //       } catch (error) {
+  //         console.log("SOMETHING ERROR", error);
+  //       }
+  //     })();
+  //   }
+  // }, []);
 
   const [activeTab, setActiveTab] = useState(0);
 
@@ -21,14 +34,14 @@ function DelegateBox() {
   ];
   return (
     <Flex
-      w="37vw"
+      w="39vw"
       align={"center"}
-      justify="center"
       background={"rgba(0, 0, 0, 0.6)"}
       direction={"column"}
       borderWidth="0.5px"
       borderColor={"white"}
       borderRadius="lg"
+      minH="400px"
       px={9}
       pt={9}
       pb={5}
@@ -59,40 +72,11 @@ function DelegateBox() {
           );
         })}
       </HStack>
-      <Box bg="#0f0f0f" borderRadius={"full"} padding={3}>
-        <Text
-          color={"white"}
-          fontSize="sm"
-          fontWeight={"light"}
-          textAlign="center"
-        >
-          Entrust tokens to wallet of your choice
-        </Text>
-      </Box>
+      <Box bg="#0f0f0f" borderRadius={"full"} padding={3}></Box>
       <Box py={2}>
         {Tabs.map((tab, i) => {
           return <Box key={i}>{activeTab == i && tab.component}</Box>;
         })}
-      </Box>
-      <Text letterSpacing={"0.35em"} color="white" fontSize={12}>
-        DELEGATE WALLET ADDRESS
-      </Text>
-      <Box pt={2}>
-        <Input
-          placeholder=""
-          bg="transparent"
-          borderColor={"white"}
-          w="35vw"
-          borderWidth={"0.5px"}
-          borderRadius={"full"}
-          variant={"filled"}
-          size="md"
-        />
-      </Box>
-      <Box pt={7}>
-        <Button borderRadius={"full"} variant="solid" bg="white" color="black">
-          Delegate Token
-        </Button>
       </Box>
     </Flex>
   );

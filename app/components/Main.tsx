@@ -10,6 +10,8 @@ import {
   Center,
 } from "@chakra-ui/react";
 import DelegateBox from "./DelegateBox";
+import { getAllTokens } from "../solana/index";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 function TopHeader() {
   return (

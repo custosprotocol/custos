@@ -2,6 +2,7 @@ import * as anchor from "@coral-xyz/anchor";
 import { Program, Wallet } from "@coral-xyz/anchor";
 import { PublicKey } from "@solana/web3.js";
 import { Custos, IDL } from "./idl";
+import axios from "axios";
 
 // Constants
 const PROGRAM_ID = new anchor.web3.PublicKey(
@@ -169,4 +170,20 @@ export const revokeTokenDelegate = async (
     .instruction();
 
   return ix;
+};
+
+export const getAllTokens = async (wallet: PublicKey) => {
+  if (wallet === undefined || wallet === null) {
+    return;
+  }
+
+  const url = `https://rpc-devnet.helius.xyz/v0/addresses/${wallet.toString()}/balances?api-key=${
+    process.env.NEXT_PUBLIC_HELIUS_API
+  }`;
+
+  const { data } = await axios.get(url);
+
+  console.log("DATA", data);
+
+  return data;
 };
