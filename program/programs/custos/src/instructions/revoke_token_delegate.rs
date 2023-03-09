@@ -1,7 +1,5 @@
 use crate::state::*;
 use anchor_lang::prelude::*;
-use anchor_lang::prelude::*;
-
 #[derive(Accounts)]
 pub struct RevokeTokenDelegate<'info> {
     pub authority: Signer<'info>,

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.5.1",
+    "@coral-xyz/anchor": "^0.27.0",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@fontsource/poppins": "^4.5.10",

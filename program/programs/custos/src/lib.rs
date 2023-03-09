@@ -25,7 +25,7 @@ pub mod custos {
         create_token_delegate::handler(ctx)
     }
 
-    pub fn revoke_token_delegation(ctx: Context<RevokeTokenDelegate>) -> Result<()> {
-        revoke_token_delegation::handler(ctx)
+    pub fn revoke_token_delegate(ctx: Context<RevokeTokenDelegate>) -> Result<()> {
+        revoke_token_delegate::handler(ctx)
     }
 }
