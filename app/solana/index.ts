@@ -3,12 +3,14 @@ import { Program, Wallet } from "@coral-xyz/anchor";
 import { PublicKey } from "@solana/web3.js";
 import { Custos, IDL } from "./idl";
 import axios from "axios";
+import { Metaplex, Nft } from "@metaplex-foundation/js";
 
 // Constants
 const PROGRAM_ID = new anchor.web3.PublicKey(
-  "3xZo42jGt8vx9huwx2CXYWEcnuetDvurTAG9PLwRzcZo"
+  "6vMc3D2WBwzC7sSp5pHzNKQJYQGFydsP59P2iShYmS9Y"
 );
-const network = "https://api.devnet.solana.com";
+const network =
+  "https://rpc.helius.xyz/?api-key=17dfa7d5-4332-45f0-9b37-ad14af2c9782";
 const delegateAccountPrefix = "custos";
 const delegateTokenAccountPrefix = "custos_token";
 
@@ -64,11 +66,7 @@ export const createDelegate = async (
 
   const [delegateAccount, delegateAccountBump] =
     await anchor.web3.PublicKey.findProgramAddress(
-      [
-        Buffer.from(delegateAccountPrefix),
-        wallet.publicKey.toBuffer(),
-        hotWallet.toBuffer(),
-      ],
+      [Buffer.from(delegateAccountPrefix), wallet.publicKey.toBuffer()],
       PROGRAM_ID
     );
 
@@ -93,11 +91,7 @@ export const revokeDelegate = async (
 
   const [delegateAccount, delegateAccountBump] =
     await anchor.web3.PublicKey.findProgramAddress(
-      [
-        Buffer.from(delegateAccountPrefix),
-        wallet.publicKey.toBuffer(),
-        hotWallet.toBuffer(),
-      ],
+      [Buffer.from(delegateAccountPrefix), wallet.publicKey.toBuffer()],
       PROGRAM_ID
     );
 
@@ -125,7 +119,7 @@ export const createTokenDelegate = async (
       [
         Buffer.from(delegateTokenAccountPrefix),
         wallet.publicKey.toBuffer(),
-        hotWallet.toBuffer(),
+        tokenAccount.toBuffer(),
       ],
       PROGRAM_ID
     );
@@ -147,7 +141,9 @@ export const createTokenDelegate = async (
 
 export const revokeTokenDelegate = async (
   wallet: Wallet,
-  hotWallet: PublicKey
+  hotWallet: PublicKey,
+  mint: anchor.web3.PublicKey,
+  tokenAccount: anchor.web3.PublicKey
 ) => {
   const program = getProgram(wallet);
 
@@ -156,7 +152,7 @@ export const revokeTokenDelegate = async (
       [
         Buffer.from(delegateTokenAccountPrefix),
         wallet.publicKey.toBuffer(),
-        hotWallet.toBuffer(),
+        tokenAccount.toBuffer(),
       ],
       PROGRAM_ID
     );
@@ -177,7 +173,7 @@ export const getAllTokens = async (wallet: PublicKey) => {
     return;
   }
 
-  const url = `https://rpc-devnet.helius.xyz/v0/addresses/${wallet.toString()}/balances?api-key=${
+  const url = `https://api.helius.xyz/v0/addresses/${wallet.toString()}/balances?api-key=${
     process.env.NEXT_PUBLIC_HELIUS_API
   }`;
 
@@ -186,4 +182,29 @@ export const getAllTokens = async (wallet: PublicKey) => {
   console.log("DATA", data);
 
   return data;
+};
+
+export const getTokenMetadata = async (mintList: string[]) => {
+  if (mintList.length === 0 || mintList === null) {
+    return;
+  }
+  console.log("GOT THE LIST", mintList);
+
+  const url = `https://api.helius.xyz/v0/token-metadata?api-key=${process.env.NEXT_PUBLIC_HELIUS_API}`;
+
+  const data = await axios.post(url, {
+    mintAccounts: mintList,
+    includeOffChain: true,
+  });
+
+  console.log("TOKEN Metadata", data);
+  return data;
+};
+
+export const getNFTs = async (userAddress: anchor.web3.PublicKey) => {
+  const connection = getConnection();
+  const metaplex = new Metaplex(connection);
+  const myNfts = await metaplex.nfts().findAllByOwner({ owner: userAddress, });
+
+  return myNfts;
 };

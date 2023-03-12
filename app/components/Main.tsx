@@ -53,7 +53,7 @@ function TopHeader() {
 
 function Main() {
   return (
-    <Flex direction={"column"} color="white" h="100vh">
+    <Flex direction={"column"} bg="#0f0f0f" color="white" h="100vh">
       <TopHeader />
     </Flex>
   );
