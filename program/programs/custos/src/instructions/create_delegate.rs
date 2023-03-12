@@ -8,7 +8,7 @@ pub struct CreateDelegate<'info> {
     pub to_delegate_account: SystemAccount<'info>,
     #[account(
         init,
-        seeds = [DelegateAccount::PREFIX.as_bytes(),authority.key().as_ref(),to_delegate_account.key().as_ref()],
+        seeds = [DelegateAccount::PREFIX.as_bytes(),authority.key().as_ref()],
         bump,
         payer = authority,
         space = DelegateAccount::LEN,   

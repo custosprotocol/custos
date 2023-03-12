@@ -1,13 +1,13 @@
 [features]
 seeds = false
-[programs.devnet]
-custos = "3xZo42jGt8vx9huwx2CXYWEcnuetDvurTAG9PLwRzcZo"
+[programs.mainnet]
+custos = "6vMc3D2WBwzC7sSp5pHzNKQJYQGFydsP59P2iShYmS9Y"
 
 [registry]
 url = "https://anchor.projectserum.com"
 
 [provider]
-cluster = "devnet"
+cluster = "mainnet"
 wallet = "/Users/pratik/.config/solana/id.json"
 
 [scripts]
