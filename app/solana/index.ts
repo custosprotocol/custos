@@ -209,13 +209,23 @@ export const getNFTs = async (userAddress: anchor.web3.PublicKey) => {
   return myNfts;
 };
 
+export const getAllDelegates = async (wallet: Wallet) => {
+  const program = getProgram(wallet);
+
+  const data = program.account.delegateAccount.all();
+
+  return data;
+};
+
 export const getUserDelegate = async (wallet: Wallet) => {
   const program = getProgram(wallet);
+
+  console.log("Wallet Delegate cold", wallet.publicKey.toString());
 
   const data = program.account.delegateAccount.all([
     {
       memcmp: {
-        offset: 0,
+        offset: 8,
         bytes: wallet.publicKey.toBase58(),
       },
     },
@@ -230,7 +240,7 @@ export const getUserTokenDelegate = async (wallet: Wallet) => {
   const data = program.account.delegateTokenAccount.all([
     {
       memcmp: {
-        offset: 0,
+        offset: 8,
         bytes: wallet.publicKey.toBase58(),
       },
     },

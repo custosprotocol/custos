@@ -16,8 +16,11 @@ import {
   getTokenMetadata,
   getNFTs,
   createTokenDelegate,
+  getUserDelegate,
+  getAllDelegates,
 } from "@/solana";
-import { useWallet } from "@solana/wallet-adapter-react";
+import { useAnchorWallet, useWallet } from "@solana/wallet-adapter-react";
+import NodeWallet from "@coral-xyz/anchor/dist/cjs/nodewallet";
 
 type Tokens = {
   tokenAccount: string;
@@ -31,6 +34,7 @@ type ImageData = {
 
 function TokenTab() {
   const { publicKey } = useWallet();
+  const wallet = useAnchorWallet();
   const [tokenList, setTokenList] = useState<Tokens[]>();
   const [imagelinks, setImageLinks] = useState<ImageData[]>([]);
   const [selectedMint, setSelectedMint] = useState<String[]>([]);
@@ -61,6 +65,12 @@ function TokenTab() {
               return d;
             }
           });
+
+          if (wallet !== undefined) {
+            const res1 = await getAllDelegates(wallet as NodeWallet);
+            const res = await getUserDelegate(wallet as NodeWallet);
+            console.log("Fetch Res", JSON.stringify(res));
+          }
 
           console.log("ALL DEFINED DATA", allDefinedData);
 
