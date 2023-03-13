@@ -51,6 +51,7 @@ function WalletTab() {
         fontWeight={"light"}
         textAlign="center"
         pb={5}
+        w="30vw"
       >
         Entrust a throwaway burner wallet (eg. your hot wallet) to prove
         ownership on your behalf for any contract.

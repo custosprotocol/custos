@@ -85,7 +85,7 @@ function DelegateBox() {
           })}
         </HStack>
         <Box bg="#0f0f0f" borderRadius={"full"} padding={3}></Box>
-        <Box py={2}>
+        <Box py={2} zIndex={0}>
           {Tabs.map((tab, i) => {
             return <Box key={i}>{activeTab == i && tab.component}</Box>;
           })}

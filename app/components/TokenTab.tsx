@@ -7,6 +7,9 @@ import {
   SimpleGrid,
   Image,
   VStack,
+  Wrap,
+  WrapItem,
+  HStack,
 } from "@chakra-ui/react";
 import {
   getAllTokens,
@@ -75,53 +78,40 @@ function TokenTab() {
   }, []);
 
   return (
-    <Box h="100%" pos={"relative"} zIndex={0}>
-      <Box h="20%" zIndex={1}>
+    <VStack spacing={4} pos="relative">
+      <Box>
         <Text
           color={"white"}
           fontSize="sm"
           fontWeight={"light"}
           textAlign="center"
           pb={5}
+          w="30vw"
         >
           Entrust a throwaway burner wallet (eg. your hot wallet) to prove
           ownership on your behalf for any contract.
         </Text>
       </Box>
-      <Box zIndex={-1} overflowX={"scroll"} height="350px">
-        {imagelinks == undefined ? (
-          <Box color="white">NO NFTS Found</Box>
-        ) : (
-          <Box>
-            <SimpleGrid
-              color="white"
-              templateRows="repeat(2, 1fr)"
-              templateColumns="repeat(3, 1fr)"
-              spacing={10}
-            >
-              {imagelinks.map((link, i) => (
-                <Box key={i}>
-                  <Image
-                    border={selectedMint.includes(link.mint) ? "4px" : "1px"}
-                    borderColor={"white"}
-                    borderRadius="lg"
-                    boxSize="150px"
-                    onClick={() =>
-                      setSelectedMint([...selectedMint, link.mint])
-                    }
-                    objectFit="cover"
-                    src={link.link}
-                    alt="NFT Image"
-                  />
-                </Box>
-              ))}
-            </SimpleGrid>
-          </Box>
-        )}
+      <Box>
+        <Wrap pt={6} zIndex="-1" h="300px" overflowY={"scroll"} spacing={4}>
+          {imagelinks.map((link, i) => (
+            <WrapItem key={i}>
+              <Image
+                border={selectedMint.includes(link.mint) ? "4px" : "1px"}
+                borderColor={"white"}
+                borderRadius="lg"
+                boxSize="150px"
+                onClick={() => setSelectedMint([...selectedMint, link.mint])}
+                objectFit="cover"
+                src={link.link}
+                alt="NFT Image"
+              />
+            </WrapItem>
+          ))}
+        </Wrap>
       </Box>
-      <VStack zIndex="100">
+      <VStack zIndex={999}>
         <Text
-          pt={4}
           letterSpacing={"0.35em"}
           textAlign="center"
           color="white"
@@ -129,7 +119,6 @@ function TokenTab() {
         >
           DELEGATE WALLET ADDRESS
         </Text>
-
         <Box pt={2}>
           <Input
             value={delegateWalletAddress}
@@ -155,7 +144,7 @@ function TokenTab() {
           </Button>
         </Box>
       </VStack>
-    </Box>
+    </VStack>
   );
 }
 

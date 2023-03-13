@@ -204,7 +204,37 @@ export const getTokenMetadata = async (mintList: string[]) => {
 export const getNFTs = async (userAddress: anchor.web3.PublicKey) => {
   const connection = getConnection();
   const metaplex = new Metaplex(connection);
-  const myNfts = await metaplex.nfts().findAllByOwner({ owner: userAddress, });
+  const myNfts = await metaplex.nfts().findAllByOwner({ owner: userAddress });
 
   return myNfts;
+};
+
+export const getUserDelegate = async (wallet: Wallet) => {
+  const program = getProgram(wallet);
+
+  const data = program.account.delegateAccount.all([
+    {
+      memcmp: {
+        offset: 0,
+        bytes: wallet.publicKey.toBase58(),
+      },
+    },
+  ]);
+
+  return data;
+};
+
+export const getUserTokenDelegate = async (wallet: Wallet) => {
+  const program = getProgram(wallet);
+
+  const data = program.account.delegateTokenAccount.all([
+    {
+      memcmp: {
+        offset: 0,
+        bytes: wallet.publicKey.toBase58(),
+      },
+    },
+  ]);
+
+  return data;
 };

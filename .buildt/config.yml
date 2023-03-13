@@ -1,0 +1,8 @@
+name: custos
+id: 0c62918a-326c-446c-a852-de6bdc3df233
+language: TypeScript
+extensions:
+  - .ts
+  - .cts
+  - .mts
+  - .tsx
