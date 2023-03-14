@@ -8,6 +8,7 @@ import {
   VStack,
   Image,
   Center,
+  Link,
 } from "@chakra-ui/react";
 import DelegateBox from "./DelegateBox";
 import { getAllTokens } from "../solana/index";
@@ -21,7 +22,9 @@ function TopHeader() {
       </Heading>
       <HStack pt={5} spacing={8}>
         <Box>
-          <Image src="twitter.png" h="15px" alt="Twitter" />
+          <Link href="https://twitter.com/custosprotocol" isExternal>
+            <Image src="twitter.png" h="15px" alt="Twitter" />
+          </Link>
         </Box>
         <Box>
           <Image src="discord.png" h="15px" alt="Discord" />

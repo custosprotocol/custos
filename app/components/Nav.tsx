@@ -6,7 +6,7 @@ function Nav() {
   return (
     <Flex bg="black" w="100%" align={"center"} justify="space-around" p={2}>
       <Box>
-        <Image src="/logo.png" alt="Custos" h="20px" />
+        <Image src="/logo.png" alt="Custos" h="36px" />
       </Box>
 
       <Text color={"white"}>
