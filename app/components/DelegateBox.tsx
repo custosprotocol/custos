@@ -100,9 +100,11 @@ function DelegateBox() {
               <Box key={i} p={2} onClick={() => setHeaderTab(i)}>
                 <Text
                   textDecor={headerTab == i ? "underline" : ""}
+                  fontWeight={headerTab == i ? "bold" : ""}
                   color="white"
                   fontSize={18}
-                  bg={headerTab == i ? "#0f0f0f" : "#060606 "}
+                  opacity={headerTab == i ? "" : "0.5"}
+                  bg={headerTab == i ? "#1f1e1e" : "#000000 "}
                   borderRadius={"md"}
                   px={5}
                   py={2}
