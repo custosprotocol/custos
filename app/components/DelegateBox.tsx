@@ -10,12 +10,14 @@ import {
 } from "@chakra-ui/react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import React, { useEffect, useState } from "react";
+import CommingSoon from "./CommingSoon";
 import TokenTab from "./TokenTab";
+import WalletDisplay from "./WalletDisplay";
 import WalletTab from "./WalletTab";
+import Tab from "./Tab";
+import RevokeWallet from "./RevokeWallet";
 
 function DelegateBox() {
-  const { publicKey } = useWallet();
-
   // useEffect(() => {
   //   if (publicKey !== null || publicKey !== undefined) {
   //     (async () => {
@@ -27,19 +29,49 @@ function DelegateBox() {
   //     })();
   //   }
   // }, []);
+  const [headerTab, setHeaderTab] = useState(0);
 
-  const [activeTab, setActiveTab] = useState(0);
-
-  const Tabs = [
+  const delegatetabs = [
     {
       title: "Wallet",
       component: <WalletTab />,
     },
     {
+      title: "NFT",
+      component: <CommingSoon />,
+    },
+    {
       title: "Token",
-      component: <TokenTab />,
+      component: <CommingSoon />,
     },
   ];
+
+  const revokeTabs = [
+    {
+      title: "Wallet",
+      component: <RevokeWallet />,
+    },
+    {
+      title: "NFT",
+      component: <CommingSoon />,
+    },
+    {
+      title: "Token",
+      component: <CommingSoon />,
+    },
+  ];
+
+  const HeaderTabs = [
+    {
+      title: "Delegate",
+      component: <Tab tabsList={delegatetabs} />,
+    },
+    {
+      title: "Revoke",
+      component: <Tab tabsList={revokeTabs} />,
+    },
+  ];
+
   return (
     <Box pos="relative" zIndex={0}>
       <Flex
@@ -61,33 +93,25 @@ function DelegateBox() {
           backdropFilter: "blur(27.5px)",
         }}
       >
-        <Flex w={"full"} align={"center"} justify="space-between">
-          <Text color={"white"} fontWeight="black" fontSize={"14px"}>
-            Cold Wallet Connected :
-          </Text>
-          <Text color={"white"} textAlign="center">
-            {publicKey?.toString().slice(0, 10)}
-          </Text>
-        </Flex>
-        <HStack pt={4} spacing={16}>
-          {Tabs.map((tab, i) => {
+        <WalletDisplay />
+        <Flex w="full" mt={4} align={"flex-start"} justify="flex-start">
+          {HeaderTabs.map((header, i) => {
             return (
-              <Box key={i} p={4} onClick={() => setActiveTab(i)}>
+              <Box key={i} p={2} onClick={() => setHeaderTab(i)}>
                 <Text
-                  textDecor={activeTab == i ? "underline" : ""}
+                  textDecor={headerTab == i ? "underline" : ""}
                   color="white"
                   fontSize={18}
                 >
-                  {tab.title}
+                  {header.title}
                 </Text>
               </Box>
             );
           })}
-        </HStack>
-        <Box bg="#0f0f0f" borderRadius={"full"} padding={3}></Box>
-        <Box py={2} zIndex={0}>
-          {Tabs.map((tab, i) => {
-            return <Box key={i}>{activeTab == i && tab.component}</Box>;
+        </Flex>
+        <Box py={2}>
+          {HeaderTabs.map((header, i) => {
+            return <Box key={i}>{headerTab == i && header.component}</Box>;
           })}
         </Box>
       </Flex>
