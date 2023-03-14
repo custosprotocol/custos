@@ -7,7 +7,7 @@ pub mod state;
 use instructions::*;
 pub use state::*;
 
-declare_id!("6vMc3D2WBwzC7sSp5pHzNKQJYQGFydsP59P2iShYmS9Y");
+declare_id!("CUSto3eB2v7ZbzLTtobb1uwhQQur9gWnWtb3vESvrnwz");
 
 #[program]
 pub mod custos {

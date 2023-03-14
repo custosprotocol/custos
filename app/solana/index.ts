@@ -7,7 +7,7 @@ import { Metaplex, Nft } from "@metaplex-foundation/js";
 
 // Constants
 const PROGRAM_ID = new anchor.web3.PublicKey(
-  "6vMc3D2WBwzC7sSp5pHzNKQJYQGFydsP59P2iShYmS9Y"
+  "CUSto3eB2v7ZbzLTtobb1uwhQQur9gWnWtb3vESvrnwz"
 );
 const network =
   "https://rpc.helius.xyz/?api-key=17dfa7d5-4332-45f0-9b37-ad14af2c9782";

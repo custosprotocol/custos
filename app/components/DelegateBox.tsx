@@ -102,6 +102,10 @@ function DelegateBox() {
                   textDecor={headerTab == i ? "underline" : ""}
                   color="white"
                   fontSize={18}
+                  bg={headerTab == i ? "#0f0f0f" : "#060606 "}
+                  borderRadius={"md"}
+                  px={5}
+                  py={2}
                 >
                   {header.title}
                 </Text>

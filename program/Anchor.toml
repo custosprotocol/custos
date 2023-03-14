@@ -1,7 +1,7 @@
 [features]
 seeds = false
 [programs.mainnet]
-custos = "6vMc3D2WBwzC7sSp5pHzNKQJYQGFydsP59P2iShYmS9Y"
+custos = "CUSto3eB2v7ZbzLTtobb1uwhQQur9gWnWtb3vESvrnwz"
 
 [registry]
 url = "https://anchor.projectserum.com"
