@@ -8,15 +8,17 @@ import {
   HStack,
   Button,
   useToast,
+  Link,
 } from "@chakra-ui/react";
 import * as anchor from "@coral-xyz/anchor";
 import { useWallet, useAnchorWallet } from "@solana/wallet-adapter-react";
 import { getConnection, getUserDelegate, revokeDelegate } from "@/solana";
 import NodeWallet from "@coral-xyz/anchor/dist/cjs/nodewallet";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 
 type delegateAccount = {
-  authority: anchor.web3.PublicKey;
-  hotWallet: anchor.web3.PublicKey;
+  authority?: anchor.web3.PublicKey;
+  hotWallet?: anchor.web3.PublicKey;
 };
 
 function RevokeWallet() {
@@ -31,13 +33,21 @@ function RevokeWallet() {
     }
     (async () => {
       const delegate = await getUserDelegate(wallet as NodeWallet);
+      console.log("DELEGATE", delegate);
       console.log("DELEGATE", JSON.stringify(delegate));
-      setDelegateData({
-        authority: delegate[0].account.authority,
-        hotWallet: delegate[0].account.hotWallet,
-      });
+      if (delegate.length === 0) {
+        setDelegateData({
+          authority: undefined,
+          hotWallet: undefined,
+        });
+      } else {
+        setDelegateData({
+          authority: delegate[0].account.authority,
+          hotWallet: delegate[0].account.hotWallet,
+        });
+      }
     })();
-  }, []);
+  }, [delegateData]);
 
   const onClickHandler = async () => {
     if (publicKey === undefined || publicKey == null) {
@@ -57,6 +67,7 @@ function RevokeWallet() {
     ) {
       toast({
         title: "No Delegation Found",
+        position: "bottom-left",
         description: "Seams like you haven't delegated",
         status: "info",
         duration: 9000,
@@ -81,6 +92,18 @@ function RevokeWallet() {
     const sig = await connection.sendRawTransaction(serialized_transaction);
     await connection.confirmTransaction(sig, "confirmed");
     console.log("Transaction Signature", sig);
+    toast({
+      title: "Revoked",
+      position: "bottom-left",
+      description: (
+        <Link href={`https://explorer.solana.com/tx/${sig}`} isExternal>
+          Check Tx <ExternalLinkIcon mx="2px" />
+        </Link>
+      ),
+      status: "success",
+      duration: 9000,
+      isClosable: true,
+    });
   };
 
   return (
@@ -103,8 +126,26 @@ function RevokeWallet() {
       >
         DELEGATE WALLET ADDRESS
       </Text>
-      <Box pt={7}>
-        <Button borderRadius={"full"} variant="solid" bg="white" color="black">
+      <Box
+        px={5}
+        py={3.5}
+        borderRadius="full"
+        bg="#0f0f0f"
+        borderWidth="0.5px"
+        borderColor={"rgba(255, 255, 255, 0.5)"}
+      >
+        {delegateData?.hotWallet !== undefined
+          ? delegateData?.hotWallet.toString()
+          : "No Wallet Delegated"}
+      </Box>
+      <Box py={3.5}>
+        <Button
+          onClick={onClickHandler}
+          borderRadius={"full"}
+          variant="solid"
+          bg="white"
+          color="black"
+        >
           Revoke Delegate
         </Button>
       </Box>

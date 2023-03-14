@@ -10,7 +10,9 @@ function WalletDisplay() {
         Cold Wallet Connected :
       </Text>
       <Text color={"white"} textAlign="center">
-        {publicKey?.toString().slice(0, 10)}
+        {publicKey !== null
+          ? `${publicKey?.toString().slice(0, 25)}...`
+          : "Connect your Wallet "}
       </Text>
     </Flex>
   );

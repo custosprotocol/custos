@@ -1,12 +1,22 @@
 import React, { useState } from "react";
 import * as anchor from "@coral-xyz/anchor";
-import { Box, Text, Input, Button, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Input,
+  Button,
+  VStack,
+  useToast,
+  Link,
+} from "@chakra-ui/react";
 import { useAnchorWallet, useWallet } from "@solana/wallet-adapter-react";
 import { createDelegate, getConnection } from "@/solana";
 import NodeWallet from "@coral-xyz/anchor/dist/cjs/nodewallet";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 function WalletTab() {
   const [delegateWalletAddress, setDelegateWalletAddress] =
     useState<string>("");
+  const toast = useToast();
 
   const { publicKey } = useWallet();
   const wallet = useAnchorWallet();
@@ -41,6 +51,18 @@ function WalletTab() {
     const sig = await connection.sendRawTransaction(serialized_transaction);
     await connection.confirmTransaction(sig, "confirmed");
     console.log("Transaction Signature", sig);
+    toast({
+      title: "Delegation Created",
+      position: "bottom-left",
+      description: (
+        <Link href={`https://explorer.solana.com/tx/${sig}`} isExternal>
+          Check Tx <ExternalLinkIcon mx="2px" />
+        </Link>
+      ),
+      status: "success",
+      duration: 9000,
+      isClosable: true,
+    });
   };
 
   return (
@@ -51,7 +73,8 @@ function WalletTab() {
         fontWeight={"light"}
         textAlign="center"
         pb={5}
-        w="30vw"
+        w="full"
+        borderRadius={"2xl"}
       >
         Entrust a throwaway burner wallet (eg. your hot wallet) to prove
         ownership on your behalf for any contract.
