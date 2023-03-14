@@ -17,6 +17,7 @@ function WalletTab() {
   const [delegateWalletAddress, setDelegateWalletAddress] =
     useState<string>("");
   const toast = useToast();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { publicKey } = useWallet();
   const wallet = useAnchorWallet();
@@ -27,6 +28,7 @@ function WalletTab() {
     if (publicKey === undefined || publicKey == null) {
       return;
     }
+    setLoading(true);
 
     const connection = getConnection();
     const { blockhash } = await connection.getLatestBlockhash("finalized");
@@ -60,9 +62,10 @@ function WalletTab() {
         </Link>
       ),
       status: "success",
-      duration: 9000,
+      duration: 5000,
       isClosable: true,
     });
+    setLoading(false);
   };
 
   return (
@@ -89,6 +92,7 @@ function WalletTab() {
       </Text>
       <Box pt={2}>
         <Input
+          textAlign={"center"}
           value={delegateWalletAddress}
           onChange={(e) => setDelegateWalletAddress(e.target.value)}
           placeholder=""
@@ -108,6 +112,7 @@ function WalletTab() {
           variant="solid"
           bg="white"
           color="black"
+          isLoading={loading}
         >
           Delegate Wallet
         </Button>

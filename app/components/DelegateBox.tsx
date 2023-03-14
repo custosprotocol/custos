@@ -94,7 +94,7 @@ function DelegateBox() {
         }}
       >
         <WalletDisplay />
-        <Flex w="full" mt={4} align={"flex-start"} justify="flex-start">
+        <HStack w="full" spacing={10} mt={4} align={"center"} justify="center">
           {HeaderTabs.map((header, i) => {
             return (
               <Box key={i} p={2} onClick={() => setHeaderTab(i)}>
@@ -108,7 +108,7 @@ function DelegateBox() {
               </Box>
             );
           })}
-        </Flex>
+        </HStack>
         <Box py={2}>
           {HeaderTabs.map((header, i) => {
             return <Box key={i}>{headerTab == i && header.component}</Box>;

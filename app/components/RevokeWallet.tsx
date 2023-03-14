@@ -25,6 +25,7 @@ function RevokeWallet() {
   const wallet = useAnchorWallet();
   const { publicKey } = useWallet();
   const [delegateData, setDelegateData] = useState<delegateAccount>();
+  const [loading, setLoading] = useState<boolean>(false);
   const toast = useToast();
 
   useEffect(() => {
@@ -53,6 +54,7 @@ function RevokeWallet() {
     if (publicKey === undefined || publicKey == null) {
       return;
     }
+    setLoading(true);
 
     const connection = getConnection();
     const { blockhash } = await connection.getLatestBlockhash("finalized");
@@ -70,9 +72,10 @@ function RevokeWallet() {
         position: "bottom-left",
         description: "Seams like you haven't delegated",
         status: "info",
-        duration: 9000,
+        duration: 5000,
         isClosable: true,
       });
+      setLoading(false);
       return;
     }
 
@@ -104,6 +107,7 @@ function RevokeWallet() {
       duration: 9000,
       isClosable: true,
     });
+    setLoading(false);
   };
 
   return (
@@ -145,6 +149,7 @@ function RevokeWallet() {
           variant="solid"
           bg="white"
           color="black"
+          isLoading={loading}
         >
           Revoke Delegate
         </Button>
