@@ -10,6 +10,7 @@ function Footer() {
       color="white"
       fontSize={"md"}
       bg="black"
+      letterSpacing={"0.1em"}
     >
       built with 💛 for 🐻 and 🌎
     </Box>
