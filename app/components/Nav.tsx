@@ -1,5 +1,6 @@
 import React from "react";
-import { Flex, Image, Box, Text, HStack, Link } from "@chakra-ui/react";
+import { Flex, Image, Box, Text, Link } from "@chakra-ui/react";
+import { ExternalLinkIcon } from '@chakra-ui/icons'
 import Wallet from "./Wallet";
 
 function Nav() {
@@ -8,12 +9,8 @@ function Nav() {
       <Box>
         <Image src="/logo.png" alt="Custos" h="36px" />
       </Box>
-
-      <Text color={"white"}>
-        <Link>Integrate</Link>
-      </Text>
       <Text color="white">
-        <Link>Documentation</Link>
+        <Link href='https://docs.custosprotocol.com/' isExternal>Documentation <ExternalLinkIcon mx='2px' /> </Link>
       </Text>
       <Wallet />
     </Flex>

@@ -15,12 +15,12 @@ export default function Home() {
     <>
       <Head>
         <title>Custos Protocol | Delegate your cold wallet</title>
-        <meta name="description" content="Desc of Custos protocol" />
-        <meta property="og:description" content="Same Desc" />
+        <meta name="description" content="Custos protocol" />
+        <meta property="og:description" content="Custos protocol" />
         <meta property="og:type" content="website" />
         <meta
           property="og:title"
-          content="Custos Protocol | Delegate your cold wallet"
+          content="Custos Protocol | Protect your cold wallet"
         />
         <meta property="og:image" content="/logo.png" />
         <meta name="twitter:card" content="summary" />
