@@ -51,63 +51,76 @@ function RevokeWallet() {
   }, [delegateData]);
 
   const onClickHandler = async () => {
-    if (publicKey === undefined || publicKey == null) {
-      return;
-    }
-    setLoading(true);
+    try {
+      if (publicKey === undefined || publicKey == null) {
+        return;
+      }
+      setLoading(true);
 
-    const connection = getConnection();
-    const { blockhash } = await connection.getLatestBlockhash("finalized");
-    const transaction = new anchor.web3.Transaction({
-      recentBlockhash: blockhash,
-      feePayer: publicKey,
-    });
+      const connection = getConnection();
+      const { blockhash } = await connection.getLatestBlockhash("finalized");
+      const transaction = new anchor.web3.Transaction({
+        recentBlockhash: blockhash,
+        feePayer: publicKey,
+      });
 
-    if (
-      delegateData?.hotWallet === null ||
-      delegateData?.hotWallet === undefined
-    ) {
+      if (
+        delegateData?.hotWallet === null ||
+        delegateData?.hotWallet === undefined
+      ) {
+        toast({
+          title: "No Delegation Found",
+          position: "bottom-left",
+          description: "Seams like you haven't delegated",
+          status: "info",
+          duration: 5000,
+          isClosable: true,
+        });
+        setLoading(false);
+        return;
+      }
+
+      const ix = await revokeDelegate(
+        wallet as NodeWallet,
+        delegateData.hotWallet
+      );
+
+      transaction.add(ix);
+
+      const signed_tx = await wallet?.signTransaction(transaction);
+      if (signed_tx == undefined) {
+        return;
+      }
+      const serialized_transaction = signed_tx.serialize();
+
+      const sig = await connection.sendRawTransaction(serialized_transaction);
+      await connection.confirmTransaction(sig, "confirmed");
+      console.log("Transaction Signature", sig);
       toast({
-        title: "No Delegation Found",
+        title: "Revoked",
         position: "bottom-left",
-        description: "Seams like you haven't delegated",
-        status: "info",
-        duration: 5000,
+        description: (
+          <Link href={`https://explorer.solana.com/tx/${sig}`} isExternal>
+            Check Tx <ExternalLinkIcon mx="2px" />
+          </Link>
+        ),
+        status: "success",
+        duration: 9000,
         isClosable: true,
       });
       setLoading(false);
-      return;
+    } catch (error) {
+      console.log("REvoke Error", error);
+      toast({
+        title: "Revoke Error",
+        position: "bottom-left",
+        description: <Text>error</Text>,
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+      setLoading(false);
     }
-
-    const ix = await revokeDelegate(
-      wallet as NodeWallet,
-      delegateData.hotWallet
-    );
-
-    transaction.add(ix);
-
-    const signed_tx = await wallet?.signTransaction(transaction);
-    if (signed_tx == undefined) {
-      return;
-    }
-    const serialized_transaction = signed_tx.serialize();
-
-    const sig = await connection.sendRawTransaction(serialized_transaction);
-    await connection.confirmTransaction(sig, "confirmed");
-    console.log("Transaction Signature", sig);
-    toast({
-      title: "Revoked",
-      position: "bottom-left",
-      description: (
-        <Link href={`https://explorer.solana.com/tx/${sig}`} isExternal>
-          Check Tx <ExternalLinkIcon mx="2px" />
-        </Link>
-      ),
-      status: "success",
-      duration: 9000,
-      isClosable: true,
-    });
-    setLoading(false);
   };
 
   return (

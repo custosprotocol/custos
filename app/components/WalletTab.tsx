@@ -25,47 +25,60 @@ function WalletTab() {
   console.log("delegateWalletAddress", delegateWalletAddress);
 
   const onClickHandler = async () => {
-    if (publicKey === undefined || publicKey == null) {
-      return;
+    try {
+      if (publicKey === undefined || publicKey == null) {
+        return;
+      }
+      setLoading(true);
+
+      const connection = getConnection();
+      const { blockhash } = await connection.getLatestBlockhash("finalized");
+      const transaction = new anchor.web3.Transaction({
+        recentBlockhash: blockhash,
+        feePayer: publicKey,
+      });
+
+      const ix = await createDelegate(
+        wallet as NodeWallet,
+        new anchor.web3.PublicKey(delegateWalletAddress)
+      );
+
+      transaction.add(ix);
+
+      const signed_tx = await wallet?.signTransaction(transaction);
+      if (signed_tx == undefined) {
+        return;
+      }
+      const serialized_transaction = signed_tx.serialize();
+
+      const sig = await connection.sendRawTransaction(serialized_transaction);
+      await connection.confirmTransaction(sig, "confirmed");
+      console.log("Transaction Signature", sig);
+      toast({
+        title: "Delegation Created",
+        position: "bottom-left",
+        description: (
+          <Link href={`https://explorer.solana.com/tx/${sig}`} isExternal>
+            Check Tx <ExternalLinkIcon mx="2px" />
+          </Link>
+        ),
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+      setLoading(false);
+    } catch (error) {
+      console.log("Delegate Error", error);
+      toast({
+        title: "Something went wrong",
+        position: "bottom-left",
+        description: `${error}`,
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+      setLoading(false);
     }
-    setLoading(true);
-
-    const connection = getConnection();
-    const { blockhash } = await connection.getLatestBlockhash("finalized");
-    const transaction = new anchor.web3.Transaction({
-      recentBlockhash: blockhash,
-      feePayer: publicKey,
-    });
-
-    const ix = await createDelegate(
-      wallet as NodeWallet,
-      new anchor.web3.PublicKey(delegateWalletAddress)
-    );
-
-    transaction.add(ix);
-
-    const signed_tx = await wallet?.signTransaction(transaction);
-    if (signed_tx == undefined) {
-      return;
-    }
-    const serialized_transaction = signed_tx.serialize();
-
-    const sig = await connection.sendRawTransaction(serialized_transaction);
-    await connection.confirmTransaction(sig, "confirmed");
-    console.log("Transaction Signature", sig);
-    toast({
-      title: "Delegation Created",
-      position: "bottom-left",
-      description: (
-        <Link href={`https://explorer.solana.com/tx/${sig}`} isExternal>
-          Check Tx <ExternalLinkIcon mx="2px" />
-        </Link>
-      ),
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-    });
-    setLoading(false);
   };
 
   return (
