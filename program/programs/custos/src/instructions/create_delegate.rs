@@ -8,12 +8,12 @@ pub struct CreateDelegate<'info> {
     pub to_delegate_account: SystemAccount<'info>,
     #[account(
         init,
-        seeds = [DelegateAccount::PREFIX.as_bytes(),authority.key().as_ref()],
+        seeds = [DelegateAccount::PREFIX.as_bytes(), authority.key().as_ref()],
         bump,
         payer = authority,
         space = DelegateAccount::LEN,   
     )]
-    pub delegate_account: Account<'info,DelegateAccount>,
+    pub delegate_account: Account<'info, DelegateAccount>,
 
     
    pub system_program: Program<'info, System>,
@@ -26,7 +26,7 @@ pub fn handler(ctx: Context<CreateDelegate>) -> Result<()> {
     delegate_account.hot_wallet = ctx.accounts.to_delegate_account.key();
 
 
-    msg!("{} Delegated to {}",ctx.accounts.authority.key(),ctx.accounts.delegate_account.key());
+    msg!("Wallet `{}` delegated to wallet `{}`", delegate_account.authority, delegate_account.hot_wallet);
 
     Ok(())
 }

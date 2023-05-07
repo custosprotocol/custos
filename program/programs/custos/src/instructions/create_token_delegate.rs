@@ -9,7 +9,11 @@ pub struct CreateTokenDelegate<'info> {
     pub to_delegate_account: SystemAccount<'info>,
     #[account(
         init,
-        seeds = [DelegateTokenAccount::PREFIX.as_bytes(),authority.key().as_ref(),token_account.key().as_ref()],
+        seeds = [
+            DelegateTokenAccount::PREFIX.as_bytes(),
+            authority.key().as_ref(),
+            token_account.key().as_ref(),
+        ],
         bump,
         payer = authority,
         space = DelegateTokenAccount::LEN

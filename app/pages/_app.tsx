@@ -27,12 +27,6 @@ export default function App({ Component, pageProps }: AppProps) {
 
   const wallets = useMemo(
     () => [
-      new BackpackWalletAdapter(),
-      new PhantomWalletAdapter(),
-      new SolflareWalletAdapter({ network }),
-      new GlowWalletAdapter(),
-      new LedgerWalletAdapter(),
-      new SolletWalletAdapter({ network }),
     ],
     [network]
   );
