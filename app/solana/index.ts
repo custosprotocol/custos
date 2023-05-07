@@ -10,7 +10,7 @@ const PROGRAM_ID = new anchor.web3.PublicKey(
   "CUSto3eB2v7ZbzLTtobb1uwhQQur9gWnWtb3vESvrnwz"
 );
 const network =
-  "https://rpc.helius.xyz/?api-key=17dfa7d5-4332-45f0-9b37-ad14af2c9782";
+  "https://rpc.helius.xyz/?api-key=91e99370-59b6-43e1-841a-bfe40c0dd061";
 const delegateAccountPrefix = "custos";
 const delegateTokenAccountPrefix = "custos_token";
 
